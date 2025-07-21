@@ -3,8 +3,8 @@
 services:
   azurite:
     container_name: ddev-${DDEV_SITENAME}-azurite
-    image: ${AZURITE_DOCKER_IMAGE:-busybox:stable}
-    command: tail -f /dev/null
+    image: ${AZURITE_DOCKER_IMAGE:-mcr.microsoft.com/azure-storage/azurite}
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0"
     restart: "no"
     # These labels ensure this service is discoverable by DDEV.
     labels:
@@ -14,3 +14,4 @@ services:
     volumes:
       - ".:/mnt/ddev_config"
       - "ddev-global-cache:/mnt/ddev-global-cache"
+      - azurite_data:/data
